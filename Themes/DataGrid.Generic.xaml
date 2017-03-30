@@ -8,6 +8,98 @@
 		<ResourceDictionary Source="Brushes.xaml"/>
 	</ResourceDictionary.MergedDictionaries>
 	
+	<!-- DataGridColumnHeader Right Gripper Style -->
+	<Style x:Key="ColumnHeaderRightGripperStyle" TargetType="{x:Type Thumb}">
+		<Setter Property="Width" Value="8"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Cursor" Value="SizeWE"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Thumb}">
+					<Border Padding="{TemplateBinding Padding}"
+							Background="{TemplateBinding Background}">
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!-- DataGridColumnHeader Left Gripper Style -->
+	<Style x:Key="ColumnHeaderLeftGripperStyle" 
+		   BasedOn="{StaticResource ColumnHeaderRightGripperStyle}" 
+		   TargetType="{x:Type Thumb}">
+		<Setter Property="Width" Value="8"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Cursor" Value="SizeWE"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Thumb}">
+					<Border Name="Border"
+							Padding="{TemplateBinding Padding}" 
+							Background="{TemplateBinding Background}">
+						<Canvas>
+							<Line RenderOptions.EdgeMode="Aliased" Stroke="#88B0E4"
+								  X1="7" Y1="{Binding ElementName=Border, Path=ActualHeight}"
+								  X2="7" Y2="0"/>
+						</Canvas>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!-- DataGridColumnHeader Style -->
+	<Style x:Key="ColumnHeaderStyle" TargetType="{x:Type WpfToolkit:DataGridColumnHeader}">
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}"/>
+		<Setter Property="BorderBrush" Value="{StaticResource HeaderBorderBrush}" />
+		<Setter Property="BorderThickness" Value="0,1,0,1" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type WpfToolkit:DataGridColumnHeader}">
+					<Grid>
+						<WpfToolkit:DataGridHeaderBorder
+							x:Name="headerBorder"
+							SortDirection="{TemplateBinding SortDirection}"
+							IsHovered="{TemplateBinding IsMouseOver}"
+							IsPressed="{TemplateBinding IsPressed}"
+							IsClickable="{TemplateBinding CanUserSort}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Padding ="{TemplateBinding Padding}"
+							SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
+							SeparatorBrush="{TemplateBinding SeparatorBrush}">
+							<Border BorderBrush="{StaticResource HeaderInnerBorderBrush}" 
+									BorderThickness="0,1,0,0">
+								<TextBlock
+									Text="{Binding}" Margin="4,0,4,0"
+									SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+							</Border>
+						</WpfToolkit:DataGridHeaderBorder>
+
+						<Thumb x:Name="PART_LeftHeaderGripper"
+							   HorizontalAlignment="Left"
+							   Style="{StaticResource ColumnHeaderRightGripperStyle}"/>
+						<Thumb x:Name="PART_RightHeaderGripper"
+							   HorizontalAlignment="Right"
+							   Style="{StaticResource ColumnHeaderLeftGripperStyle}"/>
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="headerBorder" Property="Background" 
+									Value="{StaticResource HeaderHighlightedBackgoundBrush}" />
+						</Trigger>
+						<Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="headerBorder" Property="Background" 
+									Value="{StaticResource HeaderPressedBackgroundBrush}" />
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
 	<!-- DataGrid Style -->
 	<Style x:Key="{x:Type WpfToolkit:DataGrid}" TargetType="{x:Type WpfToolkit:DataGrid}">
 		<Setter Property="Background" Value="{StaticResource DefaultControlBackgroundBrush}"/>
@@ -16,6 +108,7 @@
 		<Setter Property="HorizontalGridLinesBrush" Value="{StaticResource GridLineColorBrush}" />
 		<Setter Property="VerticalGridLinesBrush" Value="{StaticResource GridLineColorBrush}" />
 		<Setter Property="AlternatingRowBackground" Value="{StaticResource AlternateRowBackgroundBrush}" />
+		<Setter Property="ColumnHeaderStyle" Value="{StaticResource ColumnHeaderStyle}"/>
 		<Setter Property="BorderThickness" Value="1" />
 		<!-- This is needed to force DG to have a non-default value.  Otherwise the DGR.DetailsVisibility cannot have a value of VisibleWhenSelected by default. -->
 		<Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
@@ -97,5 +190,5 @@
 			</Trigger>
 		</Style.Triggers>
 	</Style>
-
+	
 </ResourceDictionary>
