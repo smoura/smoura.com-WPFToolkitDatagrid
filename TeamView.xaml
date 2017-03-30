@@ -4,13 +4,19 @@
     xmlns:WpfToolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
     xmlns:System="clr-namespace:System;assembly=mscorlib">
 	<UserControl.Resources>
-		<x:Array x:Key="Categories" Type="System:String">
-			<System:String>Mini</System:String>
-			<System:String>Cadet</System:String>
-			<System:String>Junior</System:String>
-			<System:String>Senior</System:String>
-			<System:String>Veteran</System:String>
-		</x:Array>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="Themes\DataGrid.Generic.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+
+			<x:Array x:Key="Categories" Type="System:String">
+				<System:String>Mini</System:String>
+				<System:String>Cadet</System:String>
+				<System:String>Junior</System:String>
+				<System:String>Senior</System:String>
+				<System:String>Veteran</System:String>
+			</x:Array>
+		</ResourceDictionary>
 	</UserControl.Resources>
 	<WpfToolkit:DataGrid
         ItemsSource="{Binding Path=PlayerAges}"
@@ -34,7 +40,7 @@
 				Binding="{Binding Path=Deviation}"/>
 			<WpfToolkit:DataGridComboBoxColumn
 				Header="Category" Width="1*"
-				ItemsSource="{StaticResource Categories}"
+				ItemsSource="{DynamicResource Categories}"
 				SelectedValueBinding="{Binding Path=Category}"
 				TextBinding="{Binding Path=Category}" />
 			<WpfToolkit:DataGridTextColumn
