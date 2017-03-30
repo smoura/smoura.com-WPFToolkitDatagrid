@@ -93,6 +93,10 @@
 							<Setter TargetName="headerBorder" Property="Background" 
 									Value="{StaticResource HeaderHighlightedBackgoundBrush}" />
 						</Trigger>
+						<Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="headerBorder" Property="Background" 
+									Value="{StaticResource HeaderPressedBackgroundBrush}" />
+						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
@@ -113,16 +117,16 @@
 			</Setter.Value>
 		</Setter>
 	</Style>
-    <!-- DataGridRowHeader Style -->
-    <Style x:Key="{x:Type WpfToolkit:DataGridRowHeader}"
+	<!-- DataGridRowHeader Style -->
+	<Style x:Key="{x:Type WpfToolkit:DataGridRowHeader}"
 		   TargetType="{x:Type WpfToolkit:DataGridRowHeader}">
-        <Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource HeaderBorderBrush}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type WpfToolkit:DataGridRowHeader}">
-                    <Grid>
-                        <WpfToolkit:DataGridHeaderBorder 
+		<Setter Property="Background" Value="{StaticResource HeaderBackgroundBrush}" />
+		<Setter Property="BorderBrush" Value="{StaticResource HeaderBorderBrush}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type WpfToolkit:DataGridRowHeader}">
+					<Grid>
+						<WpfToolkit:DataGridHeaderBorder 
 							x:Name="headerBorder"
 							IsSelected="{TemplateBinding IsRowSelected}"
 							IsHovered ="{TemplateBinding IsMouseOver}"
@@ -134,43 +138,74 @@
 							Orientation="Horizontal"
 							SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
 							SeparatorBrush="{TemplateBinding SeparatorBrush}">
-                            <Border BorderBrush="{StaticResource HeaderInnerBorderBrush}"
+							<Border BorderBrush="{StaticResource HeaderInnerBorderBrush}"
 									BorderThickness="0,1,0,0">
-                                <StackPanel Orientation="Horizontal">
-                                    <ContentPresenter
+								<StackPanel Orientation="Horizontal">
+									<ContentPresenter
 										SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
 										VerticalAlignment="Center"/>
-                                    <Control
+									<Control
 										SnapsToDevicePixels="false"
 										Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGridRow}}, Path=(Validation.HasError), Converter={StaticResource bool2VisibilityConverter}}"
 										Template="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGridRow}}, Path=ValidationErrorTemplate}" />
-                                </StackPanel>
-                            </Border>
-                        </WpfToolkit:DataGridHeaderBorder>
-
-                        <Thumb x:Name="PART_TopHeaderGripper"
+								</StackPanel>
+							</Border>
+						</WpfToolkit:DataGridHeaderBorder>
+						
+						<Thumb x:Name="PART_TopHeaderGripper"
 							   VerticalAlignment="Top"
 							   Style="{StaticResource RowHeaderGripperStyle}"/>
-                        <Thumb x:Name="PART_BottomHeaderGripper"
+						<Thumb x:Name="PART_BottomHeaderGripper"
 							   VerticalAlignment="Bottom"
 							   Style="{StaticResource RowHeaderGripperStyle}"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="headerBorder" Property="Background" 
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="headerBorder" Property="Background" 
 									Value="{StaticResource HeaderHighlightedBackgoundBrush}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="headerBorder" Property="Background" 
+						</Trigger>
+						<Trigger Property="IsPressed" Value="True">
+							<Setter TargetName="headerBorder" Property="Background" 
 									Value="{StaticResource HeaderPressedBackgroundBrush}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
 
-    <!-- DataGrid Style -->
+	<!-- SelectAllButton ControlTemplate -->
+	<ControlTemplate x:Key="SelectAllButtonTemplate" TargetType="{x:Type Button}">
+		<Grid>
+			<Rectangle x:Name="Border" SnapsToDevicePixels="True"
+					   Stroke="{StaticResource HeaderBorderBrush}"
+					   Fill="{StaticResource HeaderBackgroundBrush}" />
+			<Border SnapsToDevicePixels="True" Margin="1,1,1,0"
+					BorderBrush="White" BorderThickness="0,1,0,0" />
+			<Polygon x:Name="Arrow"
+					 HorizontalAlignment="Right"
+					 VerticalAlignment="Bottom"
+					 Margin="8,8,3,3"
+					 Opacity="0.15"
+					 Fill="Black"
+					 Stretch="Uniform"
+					 Points="0,10 10,10 10,0" />
+		</Grid>
+		<ControlTemplate.Triggers>
+			<Trigger Property="IsMouseOver" Value="True">
+				<Setter TargetName="Border" Property="Fill"
+						Value="{StaticResource HeaderHighlightedBackgoundBrush}" />
+			</Trigger>
+			<Trigger Property="IsPressed" Value="True">
+				<Setter TargetName="Border" Property="Fill"
+						Value="{StaticResource HeaderPressedBackgroundBrush}" />
+			</Trigger>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter TargetName="Arrow" Property="Visibility" Value="Collapsed" />
+			</Trigger>
+		</ControlTemplate.Triggers>
+	</ControlTemplate>
+	<!-- DataGrid Style -->
 	<Style x:Key="{x:Type WpfToolkit:DataGrid}" TargetType="{x:Type WpfToolkit:DataGrid}">
 		<Setter Property="Background" Value="{StaticResource DefaultControlBackgroundBrush}"/>
 		<Setter Property="Foreground" Value="{StaticResource DefaultControlForegroundBrush}"/>
@@ -213,7 +248,8 @@
 											Command="{x:Static WpfToolkit:DataGrid.SelectAllCommand}"
 											Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=CellsPanelHorizontalOffset}"
 											Focusable="false"
-											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=HeadersVisibility, Converter={x:Static WpfToolkit:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static WpfToolkit:DataGridHeadersVisibility.All}}" />
+											Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type WpfToolkit:DataGrid}}, Path=HeadersVisibility, Converter={x:Static WpfToolkit:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static WpfToolkit:DataGridHeadersVisibility.All}}" 
+											Template="{StaticResource SelectAllButtonTemplate}"/>
 										<!--Column Headers-->
 										<Primitives:DataGridColumnHeadersPresenter 
 											Grid.Column="1" 
